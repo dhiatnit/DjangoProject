@@ -79,7 +79,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
-        "USER": "postgres.pexkauwlmdudtyztfabu",  # note: different user for pooler!
+        "USER": "postgres.pexkauwlmdudtyztfabu",
         "PASSWORD": "cattolica123",
         "HOST": "aws-1-eu-west-2.pooler.supabase.com",
         "PORT": "5432",
