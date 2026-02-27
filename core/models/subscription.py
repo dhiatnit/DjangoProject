@@ -27,7 +27,7 @@ class Subscription(models.Model):
 
         constraints = [
             models.CheckConstraint(
-                check=Q(startDate__lt=F("endDate")),
+                condition=Q(startDate__lt=F("endDate")),
                 name="subscription_start_before_end",
             ),
             models.UniqueConstraint(

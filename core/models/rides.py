@@ -37,11 +37,11 @@ class Rides(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=Q(endTime__gt=F("startTime")),
+                condition=Q(endTime__gt=F("startTime")),
                 name="end_after_start",
             ),
             models.CheckConstraint(
-                check=~Q(startStation=F("endStation")),
+                condition=~Q(startStation=F("endStation")),
                 name="different_stations",
             ),
         ]

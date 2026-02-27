@@ -23,11 +23,11 @@ class User(models.Model):
                 name='unique_user_email'
             ),
             models.CheckConstraint(
-                check=~Q(name=''),
+                condition=~Q(name=''),
                 name='name_not_empty'
             ),
             models.CheckConstraint(
-                check=~Q(surname=''),
+                condition=~Q(surname=''),
                 name='surname_not_empty'
             ),
         ]

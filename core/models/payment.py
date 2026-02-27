@@ -23,7 +23,7 @@ class Payment(models.Model):
 
         constraints = [
             models.CheckConstraint(
-                check=Q(amount__gt=0),
+                condition=Q(amount__gt=0),
                 name="payment_amount_positive",
             ),
         ]

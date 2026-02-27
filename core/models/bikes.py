@@ -20,14 +20,14 @@ class Bikes(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=(
+                condition=(
                     Q(bike_type=BikeType.ELECTRIC, battery_level__isnull=False)
                     | Q(bike_type=BikeType.NON_ELECTRIC, battery_level__isnull=True)
                 ),
                 name="battery_consistency_for_each_type",
             ),
             models.CheckConstraint(
-                check=(
+                condition=(
                     Q(bike_status=BikeStatus.AVAILABLE, station__isnull=False)
                     | Q(bike_status=BikeStatus.NOT_AVAILABLE, station__isnull=True)
                 ),
