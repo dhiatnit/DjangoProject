@@ -10,7 +10,7 @@ class Subscription(models.Model):
         INACTIVE = "inactive"
 
     subscriptionId = models.AutoField(primary_key=True)
-    userId = models.ForeignKey("Users", on_delete=models.CASCADE)
+    userId = models.ForeignKey("User", on_delete=models.CASCADE)
     subStatus =models.CharField(max_length=20,choices= SubscriptionStatus.choices)
     startDate = models.DateField()
     endDate = models.DateField()
