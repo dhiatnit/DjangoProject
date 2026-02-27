@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import Q, F
 
-class Ride(models.Model):
+class Rides(models.Model):
 
     rideId = models.AutoField(primary_key=True)
 
