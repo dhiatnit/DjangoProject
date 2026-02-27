@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.db.models import F, Q
 
 
 class Subscription(models.Model):
@@ -17,4 +18,25 @@ class Subscription(models.Model):
     def __str__(self):
         return f"user {self.subscriptionId}"
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['userId']),  # FK index
+            models.Index(fields=['subStatus']),  # filtering by status
+            models.Index(fields=['startDate']),
+            models.Index(fields=['endDate']),
+            models.Index(fields=['userId', 'startDate']),  # composite
+        ]
 
+        constraints = [
+            # Ensure startDate < endDate
+            models.CheckConstraint(
+                check=Q(startDate__lt=F('endDate')),
+                name='subscription_start_before_end'
+            ),
+
+            # Prevent duplicate identical subscriptions
+            models.UniqueConstraint(
+                fields=['userId', 'startDate', 'endDate'],
+                name='unique_user_subscription_period'
+            ),
+        ]

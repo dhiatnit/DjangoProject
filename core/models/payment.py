@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 from core.models.subscription import Subscription
 from core.models.rides import Ride
@@ -14,3 +15,19 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"user {self.paymentId}"
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['subscriptionId']),
+            models.Index(fields=['rideId']),
+            models.Index(fields=['payStatus']),
+            models.Index(fields=['method']),
+        ]
+
+        constraints = [
+
+            # Amount must be positive
+            models.CheckConstraint(
+                check=Q(amount__gt=0),
+                name='payment_amount_positive'
+            ),]
