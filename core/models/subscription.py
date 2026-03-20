@@ -8,36 +8,32 @@ class Subscription(models.Model):
         INACTIVE = "inactive"
         PENDING = "pending"
 
-    subscriptionId = models.AutoField(primary_key=True)
-    userId = models.ForeignKey("core.User", on_delete=models.CASCADE)
-    subStatus = models.CharField(max_length=20, choices=SubscriptionStatus.choices)
-    startDate = models.DateField()
-    endDate = models.DateField()
-
-    class SubscriptionType(models.TextChoices):
-        PAY_AS_YOU_GO = "pay_as_you_go", "Pay As You Go"
-        MONTHLY = "monthly", "Monthly"
-        ANNUALLY = "annually", "Annually"
+    subscription_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    sub_status = models.CharField(max_length=20, choices=SubscriptionStatus.choices)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    subscription_plan = models.ForeignKey("core.subscriptionPlan", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"user {self.subscriptionId}"
+        return f"user {self.subscription_id}"
 
     class Meta:
         indexes = [
-            models.Index(fields=["userId"]),
-            models.Index(fields=["subStatus"]),
-            models.Index(fields=["startDate"]),
-            models.Index(fields=["endDate"]),
-            models.Index(fields=["userId", "startDate"]),
+
+            models.Index(fields=["sub_status"]),
+            models.Index(fields=["start_date"]),
+            models.Index(fields=["end_date"]),
+
         ]
 
         constraints = [
             models.CheckConstraint(
-                condition=Q(startDate__lt=F("endDate")),
+                condition=Q(start_date__lt=F("end_date")),
                 name="subscription_start_before_end",
             ),
             models.UniqueConstraint(
-                fields=["userId", "startDate", "endDate"],
+                fields=["user", "start_date", "end_date"],
                 name="unique_user_subscription_period",
             ),
         ]

@@ -1,10 +1,10 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from .choices import BikeType
 
 
-class Stations(models.Model):
+
+class Station(models.Model):
     station_id = models.AutoField(primary_key=True)
     zone = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(6)])
     address = models.CharField(max_length=255)
@@ -17,13 +17,13 @@ class Stations(models.Model):
 
 
 class StationCapacity(models.Model):
-    station = models.ForeignKey("core.Stations", on_delete=models.CASCADE, related_name="capacities")
-    bike_type = models.CharField(max_length=20, choices=BikeType.choices)
+    station = models.ForeignKey("core.station", on_delete=models.CASCADE)
+    bike_type = models.CharField(max_length=50)
     capacity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["station", "bike_type"], name="unique_station_biketype")
+            models.UniqueConstraint(fields=["station", "bike_type"], name="unique_station_bike_type")
         ]
 
     def __str__(self):

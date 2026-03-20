@@ -3,18 +3,18 @@ from django.db.models import Q
 
 
 class User(models.Model):
-    userId = models.AutoField(primary_key=True)
+    user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"user {self.userId}"
+        return f"user {self.user_id}"
 
     class Meta:
         indexes = [
-            models.Index(fields=['surname']),  # searching by surname
-            models.Index(fields=['name', 'surname']),  # composite index
+            models.Index(fields=['surname']),
+            models.Index(fields=['name', 'surname']),
         ]
 
         constraints = [
